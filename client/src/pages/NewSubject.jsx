@@ -22,13 +22,16 @@ const NewSubject = () => {
 
   const createSubject = useMutation(
     async (newSubject) => {
-      const data = await fetch('http://localhost:5000/api/subject', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newSubject),
-      });
+      const data = await fetch(
+        'https://subject-code.onrender.com/api/subject',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newSubject),
+        }
+      );
 
       const res = await data.json();
 

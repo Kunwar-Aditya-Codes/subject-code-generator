@@ -10,13 +10,16 @@ const Home = () => {
     const getSubjects = async () => {
       if (search?.length >= 4) {
         const response = await fetch(
-          `http://localhost:5000/api/subject?query=${search}`
+          // `http://localhost:5000/api/subject?query=${search}`
+          `https://subject-code.onrender.com/api/subject?query=${search}`
         );
         const data = await response.json();
         console.log(data);
         setSubjects(data);
       } else if (search?.length === 0) {
-        const response = await fetch('http://localhost:5000/api/subject');
+        const response = await fetch(
+          'https://subject-code.onrender.com/api/subject'
+        );
         const data = await response.json();
         setSubjects(data);
       }
@@ -27,7 +30,9 @@ const Home = () => {
   const { isLoading, error } = useQuery(
     'subjects',
     async () => {
-      const response = await fetch('http://localhost:5000/api/subject');
+      const response = await fetch(
+        'https://subject-code.onrender.com/api/subject'
+      );
       const data = await response.json();
       setSubjects(data);
     },

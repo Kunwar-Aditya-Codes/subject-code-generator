@@ -20,7 +20,7 @@ const app = express();
 app.use(express.json());
 // app.use(
 //   cors({
-//     origin: ['http://localhost:5173'],
+//     origin: ['http://localhost:5173' ],
 //   })
 // );
 app.use(errorHandler);
@@ -28,10 +28,9 @@ app.use(errorHandler);
 app.use('/api/subject', subjectRoute);
 
 const __dirname = path.resolve();
-app.use(express.static(path.join(__dirname, '/client/build')));
-// console.log(__dirname)
+app.use(express.static(path.join(__dirname, '/client/dist')));
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '/client/build/index.html'));
+  res.sendFile(path.join(__dirname, '/client/dist/index.html'));
 });
 
 mongoose.connection.once('open', () => {

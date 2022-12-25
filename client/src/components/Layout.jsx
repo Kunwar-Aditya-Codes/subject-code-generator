@@ -8,7 +8,7 @@ const Layout = () => {
       </div>
       <footer className="bg-[#111111] p-4">
         <p className="text-center text-sm">
-          &copy; {new Date().getFullYear()} Chat App - Kunwar Aditya. All rights
+          &copy; {new Date().getFullYear()} Subject Code Generator - Kunwar Aditya. All rights
           reserved.
         </p>
       </footer>

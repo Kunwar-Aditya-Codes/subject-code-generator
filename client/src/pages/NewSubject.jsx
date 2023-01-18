@@ -1,27 +1,34 @@
-import { useEffect, useState } from "react";
-import { useMutation } from "react-query";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useMutation, useQuery } from "react-query";
+import { Link, useNavigate } from "react-router-dom";
+import { API } from "../utils/api";
 
 const NewSubject = () => {
   const [formData, setFormData] = useState({
     subjectName: "",
     semester: "",
     branch: "",
+    subjectCode: "",
   });
+
+  const navigate = useNavigate();
 
   const handleFormChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const [generatedCode, setGeneratedCode] = useState("");
+  const { data: subjects } = useQuery("subjects", async () => {
+    const response = await fetch(API);
+    const data = await response.json();
 
-  let existingCode = "ECE200";
+    return data;
+  });
 
   const generateCode = (branch) => {
     let numCode = 100;
     let code = "";
 
-    const branchCodeNumber = parseInt(existingCode.slice(3, 6));
+    if (!branch) return;
 
     switch (branch) {
       case "CSE":
@@ -40,16 +47,55 @@ const NewSubject = () => {
         break;
     }
 
-    while (numCode === branchCodeNumber) {
-      numCode += 1;
-    }
+    subjects?.subjects.map((subject) => {
+      const branchCodeNumber = Number(subject.subjectCode.slice(-3));
+
+      if (branchCodeNumber === numCode) numCode += 1;
+    });
+
     code = branch + numCode;
 
-    setGeneratedCode(code);
+    setFormData({ ...formData, subjectCode: code });
   };
+
+  const createSubject = useMutation(
+    async (formData) => {
+      const response = await fetch(API, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...formData }),
+      });
+
+      const data = await response.json();
+
+      return data;
+    },
+    {
+      onSuccess: () => {
+        navigate("/");
+      },
+
+      onError: (error) => {
+        console.log(error);
+      },
+    }
+  );
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (
+      !formData.subjectName ||
+      !formData.semester ||
+      !formData.branch ||
+      !formData.subjectCode
+    ) {
+      return;
+    }
+
+    createSubject.mutate(formData);
   };
 
   return (
@@ -102,23 +148,22 @@ const NewSubject = () => {
           </select>
 
           <h1 className="text-3xl font-bold text-[#7f1f5d] ">
-            {generatedCode && generatedCode}
+            {formData.subjectCode}
           </h1>
 
           <div className="flex w-full items-center justify-between">
-            <button
-              type="submit"
-              className="w-[15rem] rounded-md bg-[#7f1f5d] p-2 text-white outline-none"
-            >
-              Submit
-            </button>
-
             <button
               type="button"
               onClick={() => generateCode(formData.branch)}
               className="w-[15rem] rounded-md bg-[#7f1f5d] p-2 text-white outline-none"
             >
               Generate Code
+            </button>
+            <button
+              type="submit"
+              className="w-[15rem] rounded-md bg-[#7f1f5d] p-2 text-white outline-none"
+            >
+              Submit
             </button>
           </div>
         </form>

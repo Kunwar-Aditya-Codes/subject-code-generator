@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const subjectSchema = new mongoose.Schema({
   subjectName: {
@@ -6,7 +6,12 @@ const subjectSchema = new mongoose.Schema({
     required: true,
   },
 
-  category: {
+  branch: {
+    type: String,
+    required: true,
+  },
+
+  semester: {
     type: String,
     required: true,
   },
@@ -17,6 +22,6 @@ const subjectSchema = new mongoose.Schema({
   },
 });
 
-const Subject = mongoose.model('Subject', subjectSchema);
+const Subject = mongoose.model("Subject", subjectSchema);
 
 export default Subject;

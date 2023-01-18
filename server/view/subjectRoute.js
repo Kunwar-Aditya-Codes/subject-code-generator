@@ -1,13 +1,19 @@
-import express from 'express';
+import express from "express";
 const router = express.Router();
 
-import { createSubject, getSubject } from '../controller/subjectController.js';
+import {
+  createSubject,
+  getAllSubjects,
+  getSearchedSubjects,
+} from "../controller/subjectController.js";
 
 router.use((req, res, next) => {
-  console.log('SUBJECT ROUTE');
+  console.log("SUBJECT ROUTE");
   next();
 });
 
-router.route('/').post(createSubject).get(getSubject);
+router.route("/").post(createSubject).get(getAllSubjects);
+
+router.route("/search").post(getSearchedSubjects);
 
 export default router;

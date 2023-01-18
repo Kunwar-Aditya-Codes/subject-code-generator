@@ -9,7 +9,7 @@ const SearchBar = () => {
           id="course"
           className="w-full max-w-[16rem] rounded-md py-1 px-2 text-[#7f1f5d] outline-none"
         >
-          <option value="">Select the course</option>
+          <option>Select branch</option>
           <option value="CSE">CSE</option>
           <option value="ECE">ECE</option>
           <option value="EEE">EEE</option>
@@ -20,7 +20,7 @@ const SearchBar = () => {
           id="semester"
           className="w-full max-w-[16rem] rounded-md py-1 px-2 text-[#7f1f5d] outline-none"
         >
-          <option value="">Select the semester</option>
+          <option>Select semester</option>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
